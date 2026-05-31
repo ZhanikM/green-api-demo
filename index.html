@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GREEN-API Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green:        #25d366;
+      --green-dark:   #128c4e;
+      --green-glow:   rgba(37, 211, 102, 0.18);
+      --bg:           #0d1117;
+      --surface:      #161b22;
+      --surface-2:    #1c2128;
+      --border:       #30363d;
+      --border-focus: #25d366;
+      --text:         #e6edf3;
+      --text-muted:   #7d8590;
+      --text-dim:     #484f58;
+      --radius:       8px;
+      --transition:   0.2s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg { width: 18px; height: 18px; fill: #0d1117; }
+
+    .logo-text {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .logo-text span { color: var(--green); }
+
+    .header-badge {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--green);
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      border-radius: 20px;
+      padding: 3px 10px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 0;
+      max-width: 1100px;
+      width: 100%;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 28px;
+      border-right: 1px solid var(--border);
+    }
+
+    /* Section separator labels */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 14px 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Fields */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .field input,
+    .field textarea {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      padding: 9px 12px;
+      width: 100%;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      resize: none;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--green-glow);
+    }
+
+    .field textarea {
+      min-height: 68px;
+    }
+
+    /* Buttons */
+    .api-btn {
+      width: 100%;
+      margin-top: 4px;
+      padding: 11px 20px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
+      transition: color var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .api-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(37, 211, 102, 0.06), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.45s ease;
+    }
+
+    .api-btn:hover::before { transform: translateX(100%); }
+
+    .api-btn:hover {
+      border-color: var(--green);
+      color: var(--green);
+      box-shadow: 0 0 12px var(--green-glow);
+    }
+
+    .api-btn:active {
+      transform: scale(0.98);
+    }
+
+    .api-btn.loading {
+      pointer-events: none;
+      color: var(--green);
+      border-color: var(--green);
+    }
+
+    .api-btn .btn-icon { font-size: 14px; }
+
+    .spinner {
+      display: none;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(37, 211, 102, 0.3);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .api-btn.loading .spinner { display: block; }
+    .api-btn.loading .btn-icon { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      padding-left: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .response-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .response-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .response-title .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--text-dim);
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+
+    .response-title .dot.active {
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: color var(--transition), background var(--transition);
+      letter-spacing: 0.5px;
+    }
+
+    .clear-btn:hover {
+      color: var(--text-muted);
+      background: var(--surface-2);
+    }
+
+    .response-box {
+      flex: 1;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--text);
+      overflow-y: auto;
+      min-height: 480px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      position: relative;
+    }
+
+    .response-box:empty::before {
+      content: '// Ответ методов появится здесь';
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    /* Log entries */
+    .log-entry {
+      margin-bottom: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .log-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .log-method {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.5px;
+    }
+
+    .log-time {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    .log-status {
+      font-size: 10px;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .log-status.ok {
+      background: rgba(37, 211, 102, 0.12);
+      color: var(--green);
+    }
+
+    .log-status.err {
+      background: rgba(248, 81, 73, 0.12);
+      color: #f85149;
+    }
+
+    .log-body {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 12px;
+      color: #a5d6a7;
+    }
+
+    .log-divider {
+      border: none;
+      border-top: 1px dashed var(--border);
+      margin: 12px 0;
+    }
+
+    /* ── STATUS BAR ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 8px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    footer span { display: flex; align-items: center; gap: 5px; }
+
+    @media (max-width: 780px) {
+      main {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+        gap: 32px;
+      }
+      .left-panel { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+      .right-panel { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M11.999 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.063 23.04a.75.75 0 0 0 .897.897l5.255-1.452A11.936 11.936 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.514-5.165-1.411l-.364-.215-3.768 1.042 1.061-3.686-.235-.381A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+    </div>
+    <span class="logo-text">GREEN<span>-API</span></span>
+  </a>
+  <div class="header-badge">WhatsApp API Demo</div>
+</header>
+
+<!-- MAIN -->
+<main>
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+
+    <!-- Credentials -->
+    <div class="section-label">Подключение</div>
+
+    <div class="field">
+      <label>idInstance</label>
+      <input type="text" id="idInstance" placeholder="1234567890" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label>ApiTokenInstance</label>
+      <input type="password" id="apiToken" placeholder="••••••••••••••••••••••••••••••••" autocomplete="off" />
+    </div>
+
+    <!-- Instance info -->
+    <div class="section-label">Инстанс</div>
+
+    <button class="api-btn" id="btn-getSettings" onclick="callGetSettings()">
+      <span class="btn-icon">⚙</span>
+      <div class="spinner"></div>
+      getSettings
+    </button>
+
+    <button class="api-btn" id="btn-getStateInstance" onclick="callGetStateInstance()">
+      <span class="btn-icon">◎</span>
+      <div class="spinner"></div>
+      getStateInstance
+    </button>
+
+    <!-- Send message -->
+    <div class="section-label">Сообщение</div>
+
+    <div class="field">
+      <label>Номер получателя (chatId)</label>
+      <input type="text" id="msgPhone" placeholder="77771234567" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label>Текст сообщения</label>
+      <textarea id="msgText" placeholder="Hello World!"></textarea>
+    </div>
+
+    <button class="api-btn" id="btn-sendMessage" onclick="callSendMessage()">
+      <span class="btn-icon">➤</span>
+      <div class="spinner"></div>
+      sendMessage
+    </button>
+
+    <!-- Send file -->
+    <div class="section-label">Файл по URL</div>
+
+    <div class="field">
+      <label>Номер получателя (chatId)</label>
+      <input type="text" id="filePhone" placeholder="77771234567" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label>URL файла</label>
+      <input type="text" id="fileUrl" placeholder="https://my.site.com/img/horse.png" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label>Имя файла</label>
+      <input type="text" id="fileName" placeholder="horse.png" autocomplete="off" />
+    </div>
+
+    <button class="api-btn" id="btn-sendFileByUrl" onclick="callSendFileByUrl()">
+      <span class="btn-icon">⬆</span>
+      <div class="spinner"></div>
+      sendFileByUrl
+    </button>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="response-header">
+      <div class="response-title">
+        <div class="dot" id="status-dot"></div>
+        Ответ
+      </div>
+      <button class="clear-btn" onclick="clearResponse()">очистить</button>
+    </div>
+    <div class="response-box" id="response-box"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <span>GREEN API © 2025</span>
+  <span style="margin-left:auto;color:var(--text-dim)">api.green-api.com</span>
+</footer>
+
+<script>
+  const BASE = 'https://api.green-api.com';
+
+  function getCredentials() {
+    const id    = document.getElementById('idInstance').value.trim();
+    const token = document.getElementById('apiToken').value.trim();
+    if (!id || !token) {
+      appendLog('AUTH', null, '❌ Заполните idInstance и ApiTokenInstance', true);
+      return null;
+    }
+    return { id, token };
+  }
+
+  function formatChatId(phone) {
+    const clean = phone.replace(/\D/g, '');
+    return clean.includes('@') ? phone : clean + '@c.us';
+  }
+
+  function now() {
+    return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  function setLoading(btnId, state) {
+    const btn = document.getElementById(btnId);
+    btn.classList.toggle('loading', state);
+  }
+
+  function setDot(active) {
+    document.getElementById('status-dot').classList.toggle('active', active);
+  }
+
+  function clearResponse() {
+    document.getElementById('response-box').innerHTML = '';
+    setDot(false);
+  }
+
+  function appendLog(method, status, body, isError = false) {
+    const box = document.getElementById('response-box');
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+
+    const statusClass = isError ? 'err' : 'ok';
+    const statusText  = isError ? 'ERROR' : (status ? `HTTP ${status}` : 'OK');
+
+    entry.innerHTML = `
+      <div class="log-meta">
+        <span class="log-method">${method}</span>
+        <span class="log-status ${statusClass}">${statusText}</span>
+        <span class="log-time">${now()}</span>
+      </div>
+      <div class="log-body">${escapeHtml(typeof body === 'string' ? body : JSON.stringify(body, null, 2))}</div>
+    `;
+
+    if (box.childElementCount > 0) {
+      const divider = document.createElement('hr');
+      divider.className = 'log-divider';
+      box.appendChild(divider);
+    }
+
+    box.appendChild(entry);
+    box.scrollTop = box.scrollHeight;
+    setDot(true);
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  async function apiFetch(method, url, options = {}) {
+    try {
+      const resp = await fetch(url, options);
+      const text = await resp.text();
+      let parsed;
+      try { parsed = JSON.parse(text); } catch { parsed = text; }
+      appendLog(method, resp.status, parsed, !resp.ok);
+      return parsed;
+    } catch (err) {
+      appendLog(method, null, String(err), true);
+      return null;
+    }
+  }
+
+  /* ── getSettings ── */
+  async function callGetSettings() {
+    const creds = getCredentials(); if (!creds) return;
+    setLoading('btn-getSettings', true);
+    const url = `${BASE}/waInstance${creds.id}/getSettings/${creds.token}`;
+    await apiFetch('getSettings', url);
+    setLoading('btn-getSettings', false);
+  }
+
+  /* ── getStateInstance ── */
+  async function callGetStateInstance() {
+    const creds = getCredentials(); if (!creds) return;
+    setLoading('btn-getStateInstance', true);
+    const url = `${BASE}/waInstance${creds.id}/getStateInstance/${creds.token}`;
+    await apiFetch('getStateInstance', url);
+    setLoading('btn-getStateInstance', false);
+  }
+
+  /* ── sendMessage ── */
+  async function callSendMessage() {
+    const creds = getCredentials(); if (!creds) return;
+    const phone = document.getElementById('msgPhone').value.trim();
+    const text  = document.getElementById('msgText').value.trim();
+    if (!phone) { appendLog('sendMessage', null, '❌ Укажите номер получателя', true); return; }
+    if (!text)  { appendLog('sendMessage', null, '❌ Введите текст сообщения', true); return; }
+
+    setLoading('btn-sendMessage', true);
+    const url  = `${BASE}/waInstance${creds.id}/sendMessage/${creds.token}`;
+    const body = { chatId: formatChatId(phone), message: text };
+    await apiFetch('sendMessage', url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    setLoading('btn-sendMessage', false);
+  }
+
+  /* ── sendFileByUrl ── */
+  async function callSendFileByUrl() {
+    const creds = getCredentials(); if (!creds) return;
+    const phone    = document.getElementById('filePhone').value.trim();
+    const fileUrl  = document.getElementById('fileUrl').value.trim();
+    const fileName = document.getElementById('fileName').value.trim() || fileUrl.split('/').pop() || 'file';
+    if (!phone)   { appendLog('sendFileByUrl', null, '❌ Укажите номер получателя', true); return; }
+    if (!fileUrl) { appendLog('sendFileByUrl', null, '❌ Укажите URL файла', true); return; }
+
+    setLoading('btn-sendFileByUrl', true);
+    const url  = `${BASE}/waInstance${creds.id}/sendFileByUrl/${creds.token}`;
+    const body = {
+      chatId: formatChatId(phone),
+      urlFile: fileUrl,
+      fileName: fileName,
+    };
+    await apiFetch('sendFileByUrl', url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    setLoading('btn-sendFileByUrl', false);
+  }
+</script>
+</body>
+</html>
