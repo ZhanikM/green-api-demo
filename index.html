@@ -25,7 +25,6 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -51,33 +50,33 @@
       z-index: 10;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo-icon {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       background: var(--green);
       border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 18px; height: 18px; fill: #0d1117; }
+    .logo-text { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+    .logo-text span { color: var(--green); }
+
+    .api-url-indicator {
+      margin-left: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
     }
-
-    .logo-icon svg { width: 18px; height: 18px; fill: #0d1117; }
-
-    .logo-text {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: var(--text);
+    .api-url-indicator .url-val {
+      color: var(--green);
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-
-    .logo-text span { color: var(--green); }
 
     .header-badge {
       margin-left: auto;
@@ -112,7 +111,6 @@
       border-right: 1px solid var(--border);
     }
 
-    /* Section separator labels */
     .section-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
@@ -125,7 +123,6 @@
       align-items: center;
       gap: 8px;
     }
-
     .section-label::after {
       content: '';
       flex: 1;
@@ -133,22 +130,14 @@
       background: var(--border);
     }
 
-    /* Fields */
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
+    .field { display: flex; flex-direction: column; gap: 5px; }
     .field label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: var(--text-muted);
       letter-spacing: 0.3px;
     }
-
-    .field input,
-    .field textarea {
+    .field input, .field textarea {
       background: var(--surface-2);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -161,23 +150,13 @@
       transition: border-color var(--transition), box-shadow var(--transition);
       resize: none;
     }
-
-    .field input::placeholder,
-    .field textarea::placeholder {
-      color: var(--text-dim);
-    }
-
-    .field input:focus,
-    .field textarea:focus {
+    .field input::placeholder, .field textarea::placeholder { color: var(--text-dim); }
+    .field input:focus, .field textarea:focus {
       border-color: var(--border-focus);
       box-shadow: 0 0 0 3px var(--green-glow);
     }
+    .field textarea { min-height: 68px; }
 
-    .field textarea {
-      min-height: 68px;
-    }
-
-    /* Buttons */
     .api-btn {
       width: 100%;
       margin-top: 4px;
@@ -199,7 +178,6 @@
       justify-content: center;
       gap: 8px;
     }
-
     .api-btn::before {
       content: '';
       position: absolute;
@@ -208,40 +186,21 @@
       transform: translateX(-100%);
       transition: transform 0.45s ease;
     }
-
     .api-btn:hover::before { transform: translateX(100%); }
-
-    .api-btn:hover {
-      border-color: var(--green);
-      color: var(--green);
-      box-shadow: 0 0 12px var(--green-glow);
-    }
-
-    .api-btn:active {
-      transform: scale(0.98);
-    }
-
-    .api-btn.loading {
-      pointer-events: none;
-      color: var(--green);
-      border-color: var(--green);
-    }
-
+    .api-btn:hover { border-color: var(--green); color: var(--green); box-shadow: 0 0 12px var(--green-glow); }
+    .api-btn:active { transform: scale(0.98); }
+    .api-btn.loading { pointer-events: none; color: var(--green); border-color: var(--green); }
     .api-btn .btn-icon { font-size: 14px; }
-
     .spinner {
       display: none;
-      width: 14px;
-      height: 14px;
+      width: 14px; height: 14px;
       border: 2px solid rgba(37, 211, 102, 0.3);
       border-top-color: var(--green);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
-
     .api-btn.loading .spinner { display: block; }
     .api-btn.loading .btn-icon { display: none; }
-
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── RIGHT PANEL ── */
@@ -251,7 +210,6 @@
       flex-direction: column;
       gap: 12px;
     }
-
     .response-header {
       display: flex;
       align-items: center;
@@ -259,7 +217,6 @@
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
-
     .response-title {
       font-size: 13px;
       font-weight: 600;
@@ -269,25 +226,18 @@
       align-items: center;
       gap: 8px;
     }
-
     .response-title .dot {
-      width: 7px;
-      height: 7px;
+      width: 7px; height: 7px;
       background: var(--text-dim);
       border-radius: 50%;
       transition: background 0.3s;
     }
-
     .response-title .dot.active {
       background: var(--green);
       box-shadow: 0 0 6px var(--green);
       animation: pulse 1.5s ease-in-out infinite;
     }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
     .clear-btn {
       background: none;
@@ -301,11 +251,7 @@
       transition: color var(--transition), background var(--transition);
       letter-spacing: 0.5px;
     }
-
-    .clear-btn:hover {
-      color: var(--text-muted);
-      background: var(--surface-2);
-    }
+    .clear-btn:hover { color: var(--text-muted); background: var(--surface-2); }
 
     .response-box {
       flex: 1;
@@ -321,62 +267,22 @@
       min-height: 480px;
       white-space: pre-wrap;
       word-break: break-all;
-      position: relative;
     }
-
     .response-box:empty::before {
       content: '// Ответ методов появится здесь';
       color: var(--text-dim);
       font-style: italic;
     }
 
-    /* Log entries */
-    .log-entry {
-      margin-bottom: 16px;
-      animation: fadeIn 0.3s ease;
-    }
+    .log-entry { margin-bottom: 16px; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .log-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .log-method {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--green);
-      letter-spacing: 0.5px;
-    }
-
-    .log-time {
-      font-size: 10px;
-      color: var(--text-dim);
-    }
-
-    .log-status {
-      font-size: 10px;
-      padding: 1px 7px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-
-    .log-status.ok {
-      background: rgba(37, 211, 102, 0.12);
-      color: var(--green);
-    }
-
-    .log-status.err {
-      background: rgba(248, 81, 73, 0.12);
-      color: #f85149;
-    }
-
+    .log-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .log-method { font-size: 11px; font-weight: 600; color: var(--green); letter-spacing: 0.5px; }
+    .log-time { font-size: 10px; color: var(--text-dim); }
+    .log-status { font-size: 10px; padding: 1px 7px; border-radius: 4px; font-weight: 600; }
+    .log-status.ok { background: rgba(37, 211, 102, 0.12); color: var(--green); }
+    .log-status.err { background: rgba(248, 81, 73, 0.12); color: #f85149; }
     .log-body {
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
@@ -387,14 +293,8 @@
       font-size: 12px;
       color: #a5d6a7;
     }
+    .log-divider { border: none; border-top: 1px dashed var(--border); margin: 12px 0; }
 
-    .log-divider {
-      border: none;
-      border-top: 1px dashed var(--border);
-      margin: 12px 0;
-    }
-
-    /* ── STATUS BAR ── */
     footer {
       background: var(--surface);
       border-top: 1px solid var(--border);
@@ -407,14 +307,8 @@
       color: var(--text-dim);
     }
 
-    footer span { display: flex; align-items: center; gap: 5px; }
-
     @media (max-width: 780px) {
-      main {
-        grid-template-columns: 1fr;
-        padding: 0 16px;
-        gap: 32px;
-      }
+      main { grid-template-columns: 1fr; padding: 0 16px; gap: 32px; }
       .left-panel { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
       .right-panel { padding-left: 0; }
     }
@@ -422,7 +316,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <a class="logo" href="#">
     <div class="logo-icon">
@@ -433,16 +326,15 @@
     </div>
     <span class="logo-text">GREEN<span>-API</span></span>
   </a>
+  <div class="api-url-indicator">
+    apiUrl: <span class="url-val" id="header-api-url">api.green-api.com</span>
+  </div>
   <div class="header-badge">WhatsApp API Demo</div>
 </header>
 
-<!-- MAIN -->
 <main>
-
-  <!-- LEFT PANEL -->
   <div class="left-panel">
 
-    <!-- Credentials -->
     <div class="section-label">Подключение</div>
 
     <div class="field">
@@ -455,67 +347,58 @@
       <input type="password" id="apiToken" placeholder="••••••••••••••••••••••••••••••••" autocomplete="off" />
     </div>
 
-    <!-- Instance info -->
     <div class="section-label">Инстанс</div>
 
     <button class="api-btn" id="btn-getSettings" onclick="callGetSettings()">
-      <span class="btn-icon">⚙</span>
-      <div class="spinner"></div>
-      getSettings
+      <span class="btn-icon">⚙</span><div class="spinner"></div>getSettings
     </button>
 
     <button class="api-btn" id="btn-getStateInstance" onclick="callGetStateInstance()">
-      <span class="btn-icon">◎</span>
-      <div class="spinner"></div>
-      getStateInstance
+      <span class="btn-icon">◎</span><div class="spinner"></div>getStateInstance
     </button>
 
-    <!-- Send message -->
     <div class="section-label">Сообщение</div>
 
     <div class="field">
       <label>Номер получателя (chatId)</label>
       <input type="text" id="msgPhone" placeholder="77771234567" autocomplete="off" />
     </div>
-
     <div class="field">
       <label>Текст сообщения</label>
       <textarea id="msgText" placeholder="Hello World!"></textarea>
     </div>
 
     <button class="api-btn" id="btn-sendMessage" onclick="callSendMessage()">
-      <span class="btn-icon">➤</span>
-      <div class="spinner"></div>
-      sendMessage
+      <span class="btn-icon">➤</span><div class="spinner"></div>sendMessage
     </button>
 
-    <!-- Send file -->
     <div class="section-label">Файл по URL</div>
 
     <div class="field">
       <label>Номер получателя (chatId)</label>
       <input type="text" id="filePhone" placeholder="77771234567" autocomplete="off" />
     </div>
-
     <div class="field">
       <label>URL файла</label>
-      <input type="text" id="fileUrl" placeholder="https://my.site.com/img/horse.png" autocomplete="off" />
+      <input type="text" id="fileUrl"
+        placeholder="https://avatars.mds.yandex.net/get-pdb/477388/77f64197-87d2-42cf-9305-14f49c65f1da/s375"
+        autocomplete="off" />
     </div>
-
     <div class="field">
-      <label>Имя файла</label>
+      <label>Имя файла (с расширением)</label>
       <input type="text" id="fileName" placeholder="horse.png" autocomplete="off" />
+    </div>
+    <div class="field">
+      <label>Подпись (необязательно)</label>
+      <input type="text" id="fileCaption" placeholder="Подпись к файлу" autocomplete="off" />
     </div>
 
     <button class="api-btn" id="btn-sendFileByUrl" onclick="callSendFileByUrl()">
-      <span class="btn-icon">⬆</span>
-      <div class="spinner"></div>
-      sendFileByUrl
+      <span class="btn-icon">⬆</span><div class="spinner"></div>sendFileByUrl
     </button>
 
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="right-panel">
     <div class="response-header">
       <div class="response-title">
@@ -526,18 +409,25 @@
     </div>
     <div class="response-box" id="response-box"></div>
   </div>
-
 </main>
 
-<!-- FOOTER -->
 <footer>
   <span>GREEN API © 2025</span>
-  <span style="margin-left:auto;color:var(--text-dim)">api.green-api.com</span>
+  <span style="margin-left:auto">api.green-api.com</span>
 </footer>
 
 <script>
-  const BASE = 'https://api.green-api.com';
+  // ── State ──────────────────────────────────────────────────────────────────
+  // apiUrl is dynamically set from getSettings response
+  let apiUrl = 'https://api.green-api.com';
 
+  function updateApiUrlDisplay(url) {
+    apiUrl = url;
+    const el = document.getElementById('header-api-url');
+    if (el) el.textContent = url.replace('https://', '');
+  }
+
+  // ── Credentials ────────────────────────────────────────────────────────────
   function getCredentials() {
     const id    = document.getElementById('idInstance').value.trim();
     const token = document.getElementById('apiToken').value.trim();
@@ -553,13 +443,14 @@
     return clean.includes('@') ? phone : clean + '@c.us';
   }
 
-  function now() {
-    return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  function nowStr() {
+    return new Date().toLocaleTimeString('ru-RU',
+      { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
 
+  // ── UI Helpers ──────────────────────────────────────────────────────────────
   function setLoading(btnId, state) {
-    const btn = document.getElementById(btnId);
-    btn.classList.toggle('loading', state);
+    document.getElementById(btnId).classList.toggle('loading', state);
   }
 
   function setDot(active) {
@@ -571,6 +462,10 @@
     setDot(false);
   }
 
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
   function appendLog(method, status, body, isError = false) {
     const box = document.getElementById('response-box');
     const entry = document.createElement('div');
@@ -578,31 +473,28 @@
 
     const statusClass = isError ? 'err' : 'ok';
     const statusText  = isError ? 'ERROR' : (status ? `HTTP ${status}` : 'OK');
+    const text = typeof body === 'string' ? body : JSON.stringify(body, null, 2);
 
     entry.innerHTML = `
       <div class="log-meta">
         <span class="log-method">${method}</span>
         <span class="log-status ${statusClass}">${statusText}</span>
-        <span class="log-time">${now()}</span>
+        <span class="log-time">${nowStr()}</span>
       </div>
-      <div class="log-body">${escapeHtml(typeof body === 'string' ? body : JSON.stringify(body, null, 2))}</div>
+      <div class="log-body">${escapeHtml(text)}</div>
     `;
 
     if (box.childElementCount > 0) {
-      const divider = document.createElement('hr');
-      divider.className = 'log-divider';
-      box.appendChild(divider);
+      const d = document.createElement('hr');
+      d.className = 'log-divider';
+      box.appendChild(d);
     }
-
     box.appendChild(entry);
     box.scrollTop = box.scrollHeight;
     setDot(true);
   }
 
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
+  // ── Core fetch ─────────────────────────────────────────────────────────────
   async function apiFetch(method, url, options = {}) {
     try {
       const resp = await fetch(url, options);
@@ -610,32 +502,45 @@
       let parsed;
       try { parsed = JSON.parse(text); } catch { parsed = text; }
       appendLog(method, resp.status, parsed, !resp.ok);
-      return parsed;
+      return { ok: resp.ok, data: parsed };
     } catch (err) {
-      appendLog(method, null, String(err), true);
-      return null;
+      appendLog(method, null, '❌ Сетевая ошибка: ' + String(err), true);
+      return { ok: false, data: null };
     }
   }
 
-  /* ── getSettings ── */
+  // ── Build URL (uses dynamic apiUrl) ────────────────────────────────────────
+  function buildUrl(creds, method) {
+    return `${apiUrl}/waInstance${creds.id}/${method}/${creds.token}`;
+  }
+
+  // ── getSettings ─────────────────────────────────────────────────────────────
   async function callGetSettings() {
     const creds = getCredentials(); if (!creds) return;
     setLoading('btn-getSettings', true);
-    const url = `${BASE}/waInstance${creds.id}/getSettings/${creds.token}`;
-    await apiFetch('getSettings', url);
+
+    const url = buildUrl(creds, 'getSettings');
+    const result = await apiFetch('getSettings', url);
+
+    // Extract and store apiUrl from response
+    if (result.ok && result.data && result.data.apiUrl) {
+      updateApiUrlDisplay(result.data.apiUrl);
+      appendLog('ℹ apiUrl', null,
+        `Получен apiUrl инстанса: ${result.data.apiUrl}\nДальнейшие вызовы будут использовать этот URL.`, false);
+    }
+
     setLoading('btn-getSettings', false);
   }
 
-  /* ── getStateInstance ── */
+  // ── getStateInstance ────────────────────────────────────────────────────────
   async function callGetStateInstance() {
     const creds = getCredentials(); if (!creds) return;
     setLoading('btn-getStateInstance', true);
-    const url = `${BASE}/waInstance${creds.id}/getStateInstance/${creds.token}`;
-    await apiFetch('getStateInstance', url);
+    await apiFetch('getStateInstance', buildUrl(creds, 'getStateInstance'));
     setLoading('btn-getStateInstance', false);
   }
 
-  /* ── sendMessage ── */
+  // ── sendMessage ─────────────────────────────────────────────────────────────
   async function callSendMessage() {
     const creds = getCredentials(); if (!creds) return;
     const phone = document.getElementById('msgPhone').value.trim();
@@ -644,33 +549,40 @@
     if (!text)  { appendLog('sendMessage', null, '❌ Введите текст сообщения', true); return; }
 
     setLoading('btn-sendMessage', true);
-    const url  = `${BASE}/waInstance${creds.id}/sendMessage/${creds.token}`;
-    const body = { chatId: formatChatId(phone), message: text };
-    await apiFetch('sendMessage', url, {
+    await apiFetch('sendMessage', buildUrl(creds, 'sendMessage'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ chatId: formatChatId(phone), message: text }),
     });
     setLoading('btn-sendMessage', false);
   }
 
-  /* ── sendFileByUrl ── */
+  // ── sendFileByUrl ───────────────────────────────────────────────────────────
   async function callSendFileByUrl() {
-    const creds = getCredentials(); if (!creds) return;
+    const creds    = getCredentials(); if (!creds) return;
     const phone    = document.getElementById('filePhone').value.trim();
     const fileUrl  = document.getElementById('fileUrl').value.trim();
-    const fileName = document.getElementById('fileName').value.trim() || fileUrl.split('/').pop() || 'file';
+    const fileName = document.getElementById('fileName').value.trim()
+                     || fileUrl.split('/').pop().split('?')[0]
+                     || 'file';
+    const caption  = document.getElementById('fileCaption').value.trim();
+
     if (!phone)   { appendLog('sendFileByUrl', null, '❌ Укажите номер получателя', true); return; }
     if (!fileUrl) { appendLog('sendFileByUrl', null, '❌ Укажите URL файла', true); return; }
+    if (!fileUrl.startsWith('http')) {
+      appendLog('sendFileByUrl', null, '❌ URL должен начинаться с http:// или https://', true);
+      return;
+    }
 
-    setLoading('btn-sendFileByUrl', true);
-    const url  = `${BASE}/waInstance${creds.id}/sendFileByUrl/${creds.token}`;
     const body = {
-      chatId: formatChatId(phone),
-      urlFile: fileUrl,
+      chatId:   formatChatId(phone),
+      urlFile:  fileUrl,
       fileName: fileName,
     };
-    await apiFetch('sendFileByUrl', url, {
+    if (caption) body.caption = caption;
+
+    setLoading('btn-sendFileByUrl', true);
+    await apiFetch('sendFileByUrl', buildUrl(creds, 'sendFileByUrl'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
