@@ -9,19 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --green:        #25d366;
-      --green-dark:   #128c4e;
-      --green-glow:   rgba(37, 211, 102, 0.18);
-      --bg:           #0d1117;
-      --surface:      #161b22;
-      --surface-2:    #1c2128;
-      --border:       #30363d;
+      --green: #25d366;
+      --green-dark: #128c4e;
+      --green-glow: rgba(37, 211, 102, 0.18);
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-2: #1c2128;
+      --border: #30363d;
       --border-focus: #25d366;
-      --text:         #e6edf3;
-      --text-muted:   #7d8590;
-      --text-dim:     #484f58;
-      --radius:       8px;
-      --transition:   0.2s ease;
+      --text: #e6edf3;
+      --text-muted: #7d8590;
+      --text-dim: #484f58;
+      --radius: 8px;
+      --transition: 0.2s ease;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,7 +36,6 @@
       flex-direction: column;
     }
 
-    /* ── HEADER ── */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -90,19 +89,16 @@
       letter-spacing: 0.5px;
     }
 
-    /* ── MAIN LAYOUT ── */
     main {
       flex: 1;
       display: grid;
       grid-template-columns: 400px 1fr;
-      gap: 0;
       max-width: 1100px;
       width: 100%;
       margin: 40px auto;
       padding: 0 24px;
     }
 
-    /* ── LEFT PANEL ── */
     .left-panel {
       display: flex;
       flex-direction: column;
@@ -203,7 +199,6 @@
     .api-btn.loading .btn-icon { display: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── RIGHT PANEL ── */
     .right-panel {
       padding-left: 28px;
       display: flex;
@@ -276,7 +271,6 @@
 
     .log-entry { margin-bottom: 16px; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
     .log-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
     .log-method { font-size: 11px; font-weight: 600; color: var(--green); letter-spacing: 0.5px; }
     .log-time { font-size: 10px; color: var(--text-dim); }
@@ -334,31 +328,25 @@
 
 <main>
   <div class="left-panel">
-
     <div class="section-label">Подключение</div>
-
     <div class="field">
       <label>idInstance</label>
       <input type="text" id="idInstance" placeholder="1234567890" autocomplete="off" />
     </div>
-
     <div class="field">
       <label>ApiTokenInstance</label>
       <input type="password" id="apiToken" placeholder="••••••••••••••••••••••••••••••••" autocomplete="off" />
     </div>
 
     <div class="section-label">Инстанс</div>
-
     <button class="api-btn" id="btn-getSettings" onclick="callGetSettings()">
       <span class="btn-icon">⚙</span><div class="spinner"></div>getSettings
     </button>
-
     <button class="api-btn" id="btn-getStateInstance" onclick="callGetStateInstance()">
       <span class="btn-icon">◎</span><div class="spinner"></div>getStateInstance
     </button>
 
     <div class="section-label">Сообщение</div>
-
     <div class="field">
       <label>Номер получателя (chatId)</label>
       <input type="text" id="msgPhone" placeholder="77771234567" autocomplete="off" />
@@ -367,22 +355,18 @@
       <label>Текст сообщения</label>
       <textarea id="msgText" placeholder="Hello World!"></textarea>
     </div>
-
     <button class="api-btn" id="btn-sendMessage" onclick="callSendMessage()">
       <span class="btn-icon">➤</span><div class="spinner"></div>sendMessage
     </button>
 
     <div class="section-label">Файл по URL</div>
-
     <div class="field">
       <label>Номер получателя (chatId)</label>
       <input type="text" id="filePhone" placeholder="77771234567" autocomplete="off" />
     </div>
     <div class="field">
       <label>URL файла</label>
-      <input type="text" id="fileUrl"
-        placeholder="https://avatars.mds.yandex.net/get-pdb/477388/77f64197-87d2-42cf-9305-14f49c65f1da/s375"
-        autocomplete="off" />
+      <input type="text" id="fileUrl" placeholder="https://avatars.mds.yandex.net/get-pdb/477388/77f64197-87d2-42cf-9305-14f49c65f1da/s375" autocomplete="off" />
     </div>
     <div class="field">
       <label>Имя файла (с расширением)</label>
@@ -392,11 +376,9 @@
       <label>Подпись (необязательно)</label>
       <input type="text" id="fileCaption" placeholder="Подпись к файлу" autocomplete="off" />
     </div>
-
     <button class="api-btn" id="btn-sendFileByUrl" onclick="callSendFileByUrl()">
       <span class="btn-icon">⬆</span><div class="spinner"></div>sendFileByUrl
     </button>
-
   </div>
 
   <div class="right-panel">
@@ -417,177 +399,141 @@
 </footer>
 
 <script>
-  // ── State ──────────────────────────────────────────────────────────────────
-  // apiUrl is dynamically set from getSettings response
-  let apiUrl = 'https://api.green-api.com';
+  let baseUrl = 'https://api.green-api.com';
 
-  function updateApiUrlDisplay(url) {
-    apiUrl = url;
-    const el = document.getElementById('header-api-url');
-    if (el) el.textContent = url.replace('https://', '');
-  }
-
-  // ── Credentials ────────────────────────────────────────────────────────────
-  function getCredentials() {
-    const id    = document.getElementById('idInstance').value.trim();
+  function getCreds() {
+    const id = document.getElementById('idInstance').value.trim();
     const token = document.getElementById('apiToken').value.trim();
     if (!id || !token) {
-      appendLog('AUTH', null, '❌ Заполните idInstance и ApiTokenInstance', true);
+      log('AUTH', null, 'Заполните idInstance и ApiTokenInstance', true);
       return null;
     }
     return { id, token };
   }
 
-  function formatChatId(phone) {
-    const clean = phone.replace(/\D/g, '');
-    return clean.includes('@') ? phone : clean + '@c.us';
+  function toChat(phone) {
+    const n = phone.replace(/\D/g, '');
+    return phone.includes('@') ? phone : n + '@c.us';
   }
 
-  function nowStr() {
-    return new Date().toLocaleTimeString('ru-RU',
-      { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  function ts() {
+    return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
 
-  // ── UI Helpers ──────────────────────────────────────────────────────────────
-  function setLoading(btnId, state) {
-    document.getElementById(btnId).classList.toggle('loading', state);
-  }
-
-  function setDot(active) {
-    document.getElementById('status-dot').classList.toggle('active', active);
+  function busy(id, state) {
+    document.getElementById(id).classList.toggle('loading', state);
   }
 
   function clearResponse() {
     document.getElementById('response-box').innerHTML = '';
-    setDot(false);
+    document.getElementById('status-dot').classList.remove('active');
   }
 
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
-  function appendLog(method, status, body, isError = false) {
+  function log(method, status, body, isErr) {
     const box = document.getElementById('response-box');
-    const entry = document.createElement('div');
-    entry.className = 'log-entry';
+    const el = document.createElement('div');
+    el.className = 'log-entry';
 
-    const statusClass = isError ? 'err' : 'ok';
-    const statusText  = isError ? 'ERROR' : (status ? `HTTP ${status}` : 'OK');
-    const text = typeof body === 'string' ? body : JSON.stringify(body, null, 2);
+    const cls = isErr ? 'err' : 'ok';
+    const label = isErr ? 'ERROR' : (status ? 'HTTP ' + status : 'OK');
+    const txt = typeof body === 'string' ? body : JSON.stringify(body, null, 2);
 
-    entry.innerHTML = `
+    el.innerHTML = `
       <div class="log-meta">
         <span class="log-method">${method}</span>
-        <span class="log-status ${statusClass}">${statusText}</span>
-        <span class="log-time">${nowStr()}</span>
+        <span class="log-status ${cls}">${label}</span>
+        <span class="log-time">${ts()}</span>
       </div>
-      <div class="log-body">${escapeHtml(text)}</div>
+      <div class="log-body">${esc(txt)}</div>
     `;
 
     if (box.childElementCount > 0) {
-      const d = document.createElement('hr');
-      d.className = 'log-divider';
-      box.appendChild(d);
+      const hr = document.createElement('hr');
+      hr.className = 'log-divider';
+      box.appendChild(hr);
     }
-    box.appendChild(entry);
+    box.appendChild(el);
     box.scrollTop = box.scrollHeight;
-    setDot(true);
+    document.getElementById('status-dot').classList.add('active');
   }
 
-  // ── Core fetch ─────────────────────────────────────────────────────────────
-  async function apiFetch(method, url, options = {}) {
+  async function req(method, url, opts) {
     try {
-      const resp = await fetch(url, options);
-      const text = await resp.text();
-      let parsed;
-      try { parsed = JSON.parse(text); } catch { parsed = text; }
-      appendLog(method, resp.status, parsed, !resp.ok);
-      return { ok: resp.ok, data: parsed };
-    } catch (err) {
-      appendLog(method, null, '❌ Сетевая ошибка: ' + String(err), true);
+      const res = await fetch(url, opts || {});
+      const raw = await res.text();
+      let data;
+      try { data = JSON.parse(raw); } catch { data = raw; }
+      log(method, res.status, data, !res.ok);
+      return { ok: res.ok, data };
+    } catch(e) {
+      log(method, null, 'Сетевая ошибка: ' + e, true);
       return { ok: false, data: null };
     }
   }
 
-  // ── Build URL (uses dynamic apiUrl) ────────────────────────────────────────
-  function buildUrl(creds, method) {
-    return `${apiUrl}/waInstance${creds.id}/${method}/${creds.token}`;
+  function url(creds, method) {
+    return `${baseUrl}/waInstance${creds.id}/${method}/${creds.token}`;
   }
 
-  // ── getSettings ─────────────────────────────────────────────────────────────
   async function callGetSettings() {
-    const creds = getCredentials(); if (!creds) return;
-    setLoading('btn-getSettings', true);
-
-    const url = buildUrl(creds, 'getSettings');
-    const result = await apiFetch('getSettings', url);
-
-    // Extract and store apiUrl from response
-    if (result.ok && result.data && result.data.apiUrl) {
-      updateApiUrlDisplay(result.data.apiUrl);
-      appendLog('ℹ apiUrl', null,
-        `Получен apiUrl инстанса: ${result.data.apiUrl}\nДальнейшие вызовы будут использовать этот URL.`, false);
+    const creds = getCreds();
+    if (!creds) return;
+    busy('btn-getSettings', true);
+    const res = await req('getSettings', url(creds, 'getSettings'));
+    if (res.ok && res.data && res.data.apiUrl) {
+      baseUrl = res.data.apiUrl;
+      document.getElementById('header-api-url').textContent = baseUrl.replace('https://', '');
     }
-
-    setLoading('btn-getSettings', false);
+    busy('btn-getSettings', false);
   }
 
-  // ── getStateInstance ────────────────────────────────────────────────────────
   async function callGetStateInstance() {
-    const creds = getCredentials(); if (!creds) return;
-    setLoading('btn-getStateInstance', true);
-    await apiFetch('getStateInstance', buildUrl(creds, 'getStateInstance'));
-    setLoading('btn-getStateInstance', false);
+    const creds = getCreds();
+    if (!creds) return;
+    busy('btn-getStateInstance', true);
+    await req('getStateInstance', url(creds, 'getStateInstance'));
+    busy('btn-getStateInstance', false);
   }
 
-  // ── sendMessage ─────────────────────────────────────────────────────────────
   async function callSendMessage() {
-    const creds = getCredentials(); if (!creds) return;
+    const creds = getCreds();
+    if (!creds) return;
     const phone = document.getElementById('msgPhone').value.trim();
-    const text  = document.getElementById('msgText').value.trim();
-    if (!phone) { appendLog('sendMessage', null, '❌ Укажите номер получателя', true); return; }
-    if (!text)  { appendLog('sendMessage', null, '❌ Введите текст сообщения', true); return; }
-
-    setLoading('btn-sendMessage', true);
-    await apiFetch('sendMessage', buildUrl(creds, 'sendMessage'), {
+    const text = document.getElementById('msgText').value.trim();
+    if (!phone) { log('sendMessage', null, 'Укажите номер получателя', true); return; }
+    if (!text) { log('sendMessage', null, 'Введите текст сообщения', true); return; }
+    busy('btn-sendMessage', true);
+    await req('sendMessage', url(creds, 'sendMessage'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chatId: formatChatId(phone), message: text }),
+      body: JSON.stringify({ chatId: toChat(phone), message: text })
     });
-    setLoading('btn-sendMessage', false);
+    busy('btn-sendMessage', false);
   }
 
-  // ── sendFileByUrl ───────────────────────────────────────────────────────────
   async function callSendFileByUrl() {
-    const creds    = getCredentials(); if (!creds) return;
-    const phone    = document.getElementById('filePhone').value.trim();
-    const fileUrl  = document.getElementById('fileUrl').value.trim();
-    const fileName = document.getElementById('fileName').value.trim()
-                     || fileUrl.split('/').pop().split('?')[0]
-                     || 'file';
-    const caption  = document.getElementById('fileCaption').value.trim();
-
-    if (!phone)   { appendLog('sendFileByUrl', null, '❌ Укажите номер получателя', true); return; }
-    if (!fileUrl) { appendLog('sendFileByUrl', null, '❌ Укажите URL файла', true); return; }
-    if (!fileUrl.startsWith('http')) {
-      appendLog('sendFileByUrl', null, '❌ URL должен начинаться с http:// или https://', true);
-      return;
-    }
-
-    const body = {
-      chatId:   formatChatId(phone),
-      urlFile:  fileUrl,
-      fileName: fileName,
-    };
+    const creds = getCreds();
+    if (!creds) return;
+    const phone = document.getElementById('filePhone').value.trim();
+    const fileUrl = document.getElementById('fileUrl').value.trim();
+    const fileName = document.getElementById('fileName').value.trim() || fileUrl.split('/').pop().split('?')[0] || 'file';
+    const caption = document.getElementById('fileCaption').value.trim();
+    if (!phone) { log('sendFileByUrl', null, 'Укажите номер получателя', true); return; }
+    if (!fileUrl) { log('sendFileByUrl', null, 'Укажите URL файла', true); return; }
+    if (!fileUrl.startsWith('http')) { log('sendFileByUrl', null, 'URL должен начинаться с http:// или https://', true); return; }
+    const body = { chatId: toChat(phone), urlFile: fileUrl, fileName };
     if (caption) body.caption = caption;
-
-    setLoading('btn-sendFileByUrl', true);
-    await apiFetch('sendFileByUrl', buildUrl(creds, 'sendFileByUrl'), {
+    busy('btn-sendFileByUrl', true);
+    await req('sendFileByUrl', url(creds, 'sendFileByUrl'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     });
-    setLoading('btn-sendFileByUrl', false);
+    busy('btn-sendFileByUrl', false);
   }
 </script>
 </body>
